@@ -27,12 +27,17 @@ func handlerRoot(w http.ResponseWriter, r *http.Request) {
 		</body>
 		</html>
 	`, r.URL.Path)
+}
 
+// Handles request to "/health"
+func handlerHealth(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, `{"status": "ok"}`)
 }
 
 func main() {
 	port := ":8900"
 	http.HandleFunc("/", handlerRoot)
+	http.HandleFunc("/health", handlerHealth)
 	log.Printf("Server starting on http://localhost:%s\n", port)
 
 	err := http.ListenAndServe(port, nil)

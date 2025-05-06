@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-hello-app-service
+spec:
+  selector:
+    app: go-hello-app
+  ports:
+  - port: 8090
+    targetPort: 8900
+    nodePort: 30900
+    protocol: TCP
+  type: NodePort
+---
+
