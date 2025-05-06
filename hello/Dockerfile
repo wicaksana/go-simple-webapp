@@ -3,7 +3,7 @@ WORKDIR /app
 COPY go.mod ./
 RUN go mod download
 COPY . .
-RUN go build -o server .
+RUN CGO_ENABLED=0 GOOS=linux go build -o server .
 
 FROM alpine:latest
 WORKDIR /app
