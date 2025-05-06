@@ -1,7 +1,9 @@
 go mod init wicaksana.id/hello
 
-docker build -t go-simple-webapp .
+make build
 
-docker run -p 8900:8900 go-simple-webapp
+make run
 
-curl localhost:8900/hello
+make stop
+
+curl localhost:8900/

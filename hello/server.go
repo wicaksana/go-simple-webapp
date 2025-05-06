@@ -2,29 +2,41 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
-func defaultPath(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Root.\n")
-}
+// Handles equest to "/"
+func handlerRoot(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	fmt.Fprintf(w, `
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<title>Go Web Server Landing Page</title>
+			<style>
+				body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+				h1 { color: #333; }
+				p { color: #555; }
+			</style>
+		</head>
+		<body>
+			<h1>Welcome!</h1>
+			<p>This page is served by a simple Go web server.</p>
+			<p>Current request path: %s</p>
+		</body>
+		</html>
+	`, r.URL.Path)
 
-func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "hello\n")
-}
-
-func headers(w http.ResponseWriter, req *http.Request) {
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			fmt.Fprintf(w, "%v: %v\n", name, h)
-		}
-	}
 }
 
 func main() {
-	http.HandleFunc("/", defaultPath)
-	http.HandleFunc("/hello", hello)
-	http.HandleFunc("/headers", headers)
+	port := ":8900"
+	http.HandleFunc("/", handlerRoot)
+	log.Printf("Server starting on http://localhost:%s\n", port)
 
-	http.ListenAndServe(":8900", nil)
+	err := http.ListenAndServe(port, nil)
+	if err != nil {
+		log.Fatal("ListenAndServe error: ", err)
+	}
 }
