@@ -5,7 +5,7 @@ PORT ?= 8900
 build:
 	docker build -t ${DOCKERHUB_USERNAME}/${APPLICATION_NAME} .
 run:
-	docker run -p ${PORT}:${PORT} -d --name ${APPLICATION_NAME} ${APPLICATION_NAME}
+	docker run -p ${PORT}:${PORT} -d --name ${APPLICATION_NAME} ${DOCKERHUB_USERNAME}/${APPLICATION_NAME}
 stop:
 	docker stop ${APPLICATION_NAME}
 push:
